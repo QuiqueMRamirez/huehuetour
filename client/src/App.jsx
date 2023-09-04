@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Route, Routes } from "react-router-dom";
 
 import './App.css'
@@ -13,6 +12,8 @@ import ProfilePage from './pages/ProfilePage';
 import PlacesPage from './pages/PlacesPage';
 import PlacesFormPage from './pages/PlacesFormPage';
 import PlacePage from './pages/PlacePage';
+import BookingPage from "./pages/BookingPage";
+import BookingsPage from "./pages/BookingsPage";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000'
 axios.defaults.withCredentials = true
@@ -30,6 +31,8 @@ function App() {
           <Route path="/account/places/new" element={<PlacesFormPage />} />
           <Route path="/account/places/:id" element={<PlacesFormPage />} />
           <Route path='/place/:id' element={<PlacePage/>}/>
+          <Route path='/account/bookings' element={<BookingsPage />}/>
+          <Route path='/account/bookings/:id' element={<BookingPage />}/>
         </Route>
 
       </Routes>

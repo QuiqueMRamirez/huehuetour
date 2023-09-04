@@ -32,6 +32,16 @@ app.get("/test", (req, res) => {
   res.json("ok");
 });
 
+function getUserDataFromReq(req) {
+  return new Promise((resolve, reject) =>{
+    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+      if(err) throw err;
+      resolve(userData)
+    })
+  })
+  
+}
+
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -63,7 +73,7 @@ app.post('/login', async (req, res) => {
         res.status(422).json('not ok password')
       }
     } else {
-      res.json('not found')
+      res.status(404).json('not found')
     }
   }catch(err){
 
@@ -126,6 +136,7 @@ app.post('/places', (req, res) => {
 app.get('/user-places', (req, res) => {
   const {token} = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if(err) console.log(1, err)
     const {id} = userData;
     res.json(await Place.find({owner:id}))
   })
@@ -157,15 +168,23 @@ app.get('/places', async(req, res) => {
 })
 
 app.post('/bookings', async(req, res) => {
+  const userData = await getUserDataFromReq(req)
   const {checkIn, checkOut, place, numberOfGuests, name, phone} = req.body
   try{
     const bookingDocument = await Booking.create({
-      checkIn, checkOut, place, numberOfGuests, name, phone
+      checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id
     })
     res.json(bookingDocument)
   }catch(error){
     res.json(error)
   }
+})
+
+
+
+app.get('/bookings', async(req, res) => {
+  const userData = await getUserDataFromReq(req)
+  res.json(await Booking.find({user:userData.id}).populate('place'))
 })
 //GgRUf9Mm87RZ88KN
 

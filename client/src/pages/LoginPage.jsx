@@ -31,7 +31,7 @@ export default function LoginPage() {
             <div className="mb-64">
                 <h1 className="text-4xl text-center mb-4">Login</h1>
                 <form className="max-w-md mx-auto" onSubmit={handleLoginSubmit}>
-                    <input type='email' placeholder={'asda@gmail.com'} value={email} onChange={e => setEmail(e.target.value)} />
+                    <input type='email' placeholder={'ejemplo@gmail.com'} value={email} onChange={e => setEmail(e.target.value)} />
                     <input type='password' placeholder={'password'} value={password} onChange={e => setPassword(e.target.value)} />
                     <button className="primary">Login</button>
                     <div className="text-center py-2 text-gray-500">
