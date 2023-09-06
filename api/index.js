@@ -45,7 +45,6 @@ function getUserDataFromReq(req) {
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   try {
-    console.log(1)
     const userDoc = await User.create({
       name,
       email,
@@ -76,7 +75,7 @@ app.post('/login', async (req, res) => {
       res.status(404).json('not found')
     }
   }catch(err){
-
+    res.status(500).json('there was a server error')
   }
 })
 
@@ -169,10 +168,10 @@ app.get('/places', async(req, res) => {
 
 app.post('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
-  const {checkIn, checkOut, place, numberOfGuests, name, phone} = req.body
+  const {checkIn, checkOut, place, numberOfGuests, name, phone, price} = req.body
   try{
     const bookingDocument = await Booking.create({
-      checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id
+      checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id, price
     })
     res.json(bookingDocument)
   }catch(error){
