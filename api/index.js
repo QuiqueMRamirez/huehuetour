@@ -11,6 +11,7 @@ const imageDownloader = require('image-downloader');
 const multer = require('multer');
 const fs = require('fs');
 const Booking = require("./models/Booking");
+const Review = require("./models/Review");
 
 require("dotenv").config();
 
@@ -123,11 +124,17 @@ app.post('/places', (req, res) => {
   const {token} = req.cookies;
   const {title, address, addedPhotos, description, perks, checkIn, checkOut, maxGuests, extraInfo, price} = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    if(err) throw err;
+    if(err) {
+      console.log(err)
+      throw err
+    };
+    // const auxPerks = perks.filter((item,
+    //   index) => perks.indexOf(item) === index);
+    //   console.log(2,auxPerks)
     const placeDoc = await Place.create({
       owner: userData.id,title, address, photos:addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests, price
     });
-    res.json(placeDoc)
+    res.status(200).json(placeDoc)
   })
   
 })
@@ -135,7 +142,7 @@ app.post('/places', (req, res) => {
 app.get('/user-places', (req, res) => {
   const {token} = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    if(err) console.log(1, err)
+    if(err) console.log(err)
     const {id} = userData;
     res.json(await Place.find({owner:id}))
   })
@@ -143,7 +150,10 @@ app.get('/user-places', (req, res) => {
 
 app.get('/places/:id', async(req, res) => {
   const {id} = req.params
-  res.json(await Place.findById(id))
+  const placeById = await Place.findById(id)
+  if(placeById){
+  }
+  res.json(placeById)
 })
 
 app.put('/places', async(req, res) => {
@@ -157,7 +167,7 @@ app.put('/places', async(req, res) => {
         title, address, photos:addedPhotos, description, perks, checkIn, checkOut, maxGuests, extraInfo, price
       })
       await placeDoc.save();
-      res.json('ok')
+      res.status(200).json('ok')
     }
   })
 })
@@ -184,6 +194,22 @@ app.post('/bookings', async(req, res) => {
 app.get('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
   res.json(await Booking.find({user:userData.id}).populate('place'))
+})
+
+app.post('/review/:id', async(req, res) => {
+  const userData = await getUserDataFromReq(req)
+  const {id} = req.params
+  const {title, content} = req.body
+  const date = new Date()
+  try{
+    const reviewDocument = await Review.create({
+      place:id, user:userData.id, title, content, datePost: date, score:1
+    })
+    res.status(200).json(reviewDocument)
+  }catch(error){
+    console.log(error)
+    res.status(500).json(error)
+  }
 })
 //GgRUf9Mm87RZ88KN
 
