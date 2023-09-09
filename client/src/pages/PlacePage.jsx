@@ -4,7 +4,42 @@ import axios from "axios";
 import AddressLink from "../AddressLink";
 import PlaceGallery from "../PlaceGallery";
 import BookingWidget from "../BookingWidget";
+import Slider from '../Slider'
+import TestimonialCards from '../TestimonialCards'
+import ReviewDialog from "../ReviewDialog";
 
+const testimonials = [
+  {
+    "author": "Jayme Petracci",
+    "title": "This is awesome!",
+    "content": "Lorem ipsum ...",
+    "imgSrc": "https://randomuser.me/api/portraits/men/46.jpg"
+  },
+  {
+    "author": "Liuka Kivell",
+    "title": "The best tutorial!",
+    "content": "Lorem ipsum ...",
+    "imgSrc": "https://randomuser.me/api/portraits/men/48.jpg"
+  },
+  {
+    "author": "Chrysler Grinikhinov",
+    "title": "Revenue increased by 50%",
+    "content": "Lorem ipsum ...",
+    "imgSrc": "https://randomuser.me/api/portraits/men/49.jpg"
+  },
+  {
+    "author": "Kessiah Cornbell",
+    "title": "Lorem ipsum",
+    "content": "Lorem ipsum ...",
+    "imgSrc": "https://randomuser.me/api/portraits/men/50.jpg"
+  },
+  {
+    "author": "Wash Pont",
+    "title": "The best overall service",
+    "content": "Lorem ipsum ...",
+    "imgSrc": "https://randomuser.me/api/portraits/men/51.jpg"
+  }
+]
 export default function PlacePage() {
   const { id } = useParams();
   const [place, setPlace] = useState(null);
@@ -14,7 +49,7 @@ export default function PlacePage() {
       return;
     }
     axios.get("/places/" + id).then((response) => {
-      console.log(response.data);
+      console.log(1,response)
       setPlace(response.data);
     });
   }, [id]);
@@ -41,7 +76,7 @@ export default function PlacePage() {
             <h2 className="font-semibold text-2xl">Qué ofrecemos</h2>
             {place.perks?.length > 0 &&
               place.perks.map((element) => (
-                <>
+                <div key={element}>
                   {element === "wifi" ? (
                     <>
                       <label className="p-2 flex gap-2 items-center">
@@ -104,14 +139,14 @@ export default function PlacePage() {
                     </>
                   ) : element === 'pets' ? (<>
                     <label className="p-2 flex gap-2 items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
-                </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+                      </svg>
                       <span>{element}</span>
                     </label>
                   </>) : null}
                   <br />
-                </>
+                </div>
               ))}
           </div>
         </div>
@@ -120,11 +155,26 @@ export default function PlacePage() {
         </div>
       </div>
       <div className="bg-white -mx-8 px-8 py-8 border-t">
+      <div>
+          <h2 className="font-semibold text-2xl">Qué dicen las personas acerca de este hospedaje</h2>
+        </div>
+        <div className="w-full">
+          <Slider options={{ align: "center" }}>
+            {testimonials.map((testimonial, i) => (
+              <div key={i} className="flex-[0_0_90%] md:flex-[0_0_50%]">
+                <TestimonialCards {...testimonial} />
+              </div>
+            ))}
+          </Slider>
+        </div>
         <div>
           <h2 className="font-semibold text-2xl">Información Extra</h2>
         </div>
         <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
           {place.extraInfo}
+        </div>
+        <div>
+          <ReviewDialog/>
         </div>
       </div>
     </div>
