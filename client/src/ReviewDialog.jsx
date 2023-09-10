@@ -1,33 +1,38 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import axios from 'axios'
 import { Navigate, useParams } from "react-router-dom"
+import { UserContext } from "./UserContext.jsx";
 
 export default function ReviewDialog() {
     const { id } = useParams()
+    const { user } = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
     const [review, setReview] = useState({
         title: '',
         content: ''
     })
 
-    async function saveUserReview(){
-        if(!id) return;
+    async function saveUserReview() {
+        if (!id) return;
 
-        const reviewData = {title: review.title, content: review.content}
+        const reviewData = { title: review.title, content: review.content }
         const response = await axios.post(`/review/${id}`, reviewData)
-        console.log(2, response)
-
+        if (response.status === 200) {
+            <Navigate to={'/account/place/' + id} />
+        } else {
+            //marcar error
+        }
     }
     return (
         <>
-            <div className="w-3/12">
+            {user ? (<div className="w-3/12">
                 <button
                     className="primary mt-4" type="button"
                     onClick={() => setShowModal(true)}
                 >
                     Realizar evaluación
                 </button>
-            </div>
+            </div>) : null}
             {showModal ? (
                 <>
                     <div
@@ -54,9 +59,9 @@ export default function ReviewDialog() {
                                 <div className="bg-white">
                                     <div className="py-3 px-4 border-t">
                                         <label>Título:</label>
-                                        <input type="text" value={review.title} onChange={(e) => setReview({...review, title: e.target.value})}/>
+                                        <input type="text" value={review.title} onChange={(e) => setReview({ ...review, title: e.target.value })} />
                                         <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu comentario</label>
-                                        <textarea id="message" rows="7" value={review.content} onChange={(e) => setReview({...review, content: e.target.value})} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Deja tu comentario aquí..."></textarea>
+                                        <textarea id="message" rows="7" value={review.content} onChange={(e) => setReview({ ...review, content: e.target.value })} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Deja tu comentario aquí..."></textarea>
 
                                     </div>
                                 </div>
