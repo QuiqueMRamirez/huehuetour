@@ -152,8 +152,14 @@ app.get('/places/:id', async(req, res) => {
   const {id} = req.params
   const placeById = await Place.findById(id)
   if(placeById){
+    let reviewsByPlace = await Review.find({place: id}).populate('user')
+    console.log(reviewsByPlace)
+    reviewsByPlace = reviewsByPlace && reviewsByPlace.length > 0 ? reviewsByPlace : []
+    res.status(200).json({placeById, reviews: reviewsByPlace})
+  }else{
+    res.status(404).json('not found')
   }
-  res.json(placeById)
+  
 })
 
 app.put('/places', async(req, res) => {

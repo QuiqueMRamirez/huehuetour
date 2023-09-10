@@ -43,14 +43,18 @@ const testimonials = [
 export default function PlacePage() {
   const { id } = useParams();
   const [place, setPlace] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     if (!id) {
       return;
     }
     axios.get("/places/" + id).then((response) => {
-      console.log(1,response)
-      setPlace(response.data);
+      setPlace(response.data.placeById);
+      setReviews(response.data.reviews)
+    }).catch((error) => {
+      console.log(error)
+      //mostrar algun alert con el error
     });
   }, [id]);
 
@@ -74,9 +78,10 @@ export default function PlacePage() {
           Número máximo de huéspedes: {place.maxGuests}
           <div className="mt-4">
             <h2 className="font-semibold text-2xl">Qué ofrecemos</h2>
+            <div className="flex grid-rows-1 gap-1">
             {place.perks?.length > 0 &&
               place.perks.map((element) => (
-                <div key={element}>
+                <div  key={element}>
                   {element === "wifi" ? (
                     <>
                       <label className="p-2 flex gap-2 items-center">
@@ -148,6 +153,13 @@ export default function PlacePage() {
                   <br />
                 </div>
               ))}
+              </div>
+              <div>
+          <h2 className="font-semibold text-2xl">Información Extra</h2>
+        </div>
+        <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
+          {place.extraInfo}
+        </div>
           </div>
         </div>
         <div>
@@ -158,20 +170,14 @@ export default function PlacePage() {
       <div>
           <h2 className="font-semibold text-2xl">Qué dicen las personas acerca de este hospedaje</h2>
         </div>
-        <div className="w-full">
+        <div className="w-9/12 content-center">
           <Slider options={{ align: "center" }}>
-            {testimonials.map((testimonial, i) => (
+            {reviews && reviews.length > 0 && reviews.map((review, i) => (
               <div key={i} className="flex-[0_0_90%] md:flex-[0_0_50%]">
-                <TestimonialCards {...testimonial} />
+                <TestimonialCards {...review} />
               </div>
             ))}
           </Slider>
-        </div>
-        <div>
-          <h2 className="font-semibold text-2xl">Información Extra</h2>
-        </div>
-        <div className="mb-4 mt-2 text-sm text-gray-700 leading-5">
-          {place.extraInfo}
         </div>
         <div>
           <ReviewDialog/>
