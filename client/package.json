@@ -20,6 +20,8 @@
     "postcss-import": "^15.1.0",
     "postcss-nesting": "^11.1.0",
     "react": "^18.2.0",
+    "react-date-picker": "^10.5.0",
+    "react-datepicker": "^4.17.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
     "sass": "^1.57.1",

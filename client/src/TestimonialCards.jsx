@@ -1,8 +1,12 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { UserContext } from "./UserContext.jsx";
 
 export default function TestimonialCards(props) {
     const { user } = useContext(UserContext);
+    
+    useEffect(() => {
+        console.log(1,props)
+    })
 
     return (
         <div className="py-4 px-8 bg-white shadow-lg rounded-lg my-20 bg-slate-100">

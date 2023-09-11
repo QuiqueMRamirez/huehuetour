@@ -2,9 +2,11 @@ import { useState, useContext } from 'react'
 import axios from 'axios'
 import { Navigate, useParams } from "react-router-dom"
 import { UserContext } from "./UserContext.jsx";
+import DatePicker from "react-datepicker";
 
 export default function ReviewDialog() {
     const { id } = useParams()
+    const [startDate, setStartDate] = useState(new Date());
     const { user } = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
     const [review, setReview] = useState({
@@ -27,11 +29,12 @@ export default function ReviewDialog() {
         <>
             {user ? (<div className="w-3/12">
                 <button
-                    className="primary mt-4" type="button"
+                    className="primary mt-4 " type="button"
                     onClick={() => setShowModal(true)}
                 >
                     Realizar evaluación
                 </button>
+                
             </div>) : null}
             {showModal ? (
                 <>
