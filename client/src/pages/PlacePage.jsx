@@ -45,6 +45,7 @@ export default function PlacePage() {
   const [place, setPlace] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [disabledDates, setDisabledDates] = useState([]);
+  const [dataIsReady, setDataIsReady] = useState(false)
 
   useEffect(() => {
     if (!id) {
@@ -53,20 +54,23 @@ export default function PlacePage() {
     axios
       .get("/places/" + id)
       .then((response) => {
-        let formatedRangeDates = []
-        if(response.data && response.data.disabledDates && response.data.disabledDates.length > 0){
-           formatedRangeDates = response.data.disabledDates.map(
-            (element) => {
-              return {
-                start: new Date(element.start),
-                end: new Date(element.end),
-              };
-            }
-          );
+        let formatedRangeDates = [];
+        if (
+          response.data &&
+          response.data.disabledDates &&
+          response.data.disabledDates.length > 0
+        ) {
+          formatedRangeDates = response.data.disabledDates.map((element) => {
+            return {
+              start: new Date(element.start),
+              end: new Date(element.end),
+            };
+          });
         }
         setDisabledDates(formatedRangeDates);
         setPlace(response.data.placeById);
         setReviews(response.data.reviews);
+        setDataIsReady(true)
       })
       .catch((error) => {
         console.log(error);
@@ -79,7 +83,7 @@ export default function PlacePage() {
   return (
     <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
       <h1 className="text-3xl">{place.title}</h1>
-      <AddressLink>{place.address}</AddressLink>
+      <AddressLink reviews={place.disabledDates}>{place.address}</AddressLink>
       <PlaceGallery place={place} />
       <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
         <div>
@@ -201,16 +205,23 @@ export default function PlacePage() {
             Qué dicen las personas acerca de este hospedaje
           </h2>
         </div>
-        <div className="w-9/12 content-center">
-          <Slider options={{ align: "center" }}>
-            {reviews &&
-              reviews.length > 0 &&
-              reviews.map((review, i) => (
-                <div key={i} className="flex-[0_0_90%] md:flex-[0_0_50%]">
-                  <TestimonialCards {...review} />
-                </div>
-              ))}
-          </Slider>
+        <div className="w-full content-center">
+          {reviews && reviews.length > 0 ? (
+            <Slider options={{ align: "center" }}>
+              {reviews &&
+                reviews.length > 0 &&
+                reviews.map((review, i) => (
+                  <div key={i} className="flex-[0_0_90%] md:flex-[0_0_50%]">
+                    <TestimonialCards {...review} />
+                  </div>
+                ))}
+            </Slider>
+          ) : (
+            <div className="mt-8 mb-8 text-2xl text-center text-gray-500">
+              ¿Quiéres ser el primero en dejar una opinión acerca de este
+              hospedaje?
+            </div>
+          )}
         </div>
         <div>
           <ReviewDialog />

@@ -27,12 +27,12 @@ export default function ReviewDialog() {
     }
     return (
         <>
-            {user ? (<div className="w-3/12">
+            {user ? (<div className="flex items-stretch">
                 <button
-                    className="primary mt-4 " type="button"
+                    className="primary mt-4" type="button"
                     onClick={() => setShowModal(true)}
                 >
-                    Realizar evaluación
+                    Comentar
                 </button>
                 
             </div>) : null}
@@ -72,7 +72,7 @@ export default function ReviewDialog() {
                                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b gap-4">
                                     <div className="w-20">
                                         <button
-                                            className="secondary"
+                                            className="secondary mt-4"
                                             type="button"
                                             onClick={() => setShowModal(false)}
                                         >
