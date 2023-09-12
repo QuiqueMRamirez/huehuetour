@@ -152,10 +152,17 @@ app.get('/places/:id', async(req, res) => {
   const {id} = req.params
   const placeById = await Place.findById(id)
   if(placeById){
+    let bookingsDate = []
     let reviewsByPlace = await Review.find({place: id}).populate('user')
-    console.log(reviewsByPlace)
+    let dateBookingsByPlace = await Booking.find({place: id})
+    if(dateBookingsByPlace && dateBookingsByPlace.length > 0){
+      dateBookingsByPlace.forEach(date => {
+          const element = { start: date.checkIn.toDateString(), end: date.checkOut.toDateString()}
+          bookingsDate.push(element)
+      })
+  }
     reviewsByPlace = reviewsByPlace && reviewsByPlace.length > 0 ? reviewsByPlace : []
-    res.status(200).json({placeById, reviews: reviewsByPlace})
+    res.status(200).json({placeById, reviews: reviewsByPlace, disabledDates: bookingsDate})
   }else{
     res.status(404).json('not found')
   }
@@ -185,9 +192,10 @@ app.get('/places', async(req, res) => {
 app.post('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
   let {checkIn, checkOut, place, numberOfGuests, name, phone, price} = req.body
-  checkIn = new Date(checkIn).getDate() - 1
-  checkOut = new Date(checkOut).getDate() - 1
-  console.log(checkIn, checkOut)
+  // const auxCheckIn = new Date(checkIn)
+  // const auxCheckOut = new Date(checkOut)
+  // checkIn = new Date(auxCheckIn.getFullYear(),auxCheckIn.getMonth(),auxCheckIn.getDate() - 1)
+  // checkOut = new Date(auxCheckOut.getFullYear(),auxCheckOut.getMonth(),auxCheckOut.getDate() - 1)
   try{
     const bookingDocument = await Booking.create({
       checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id, price

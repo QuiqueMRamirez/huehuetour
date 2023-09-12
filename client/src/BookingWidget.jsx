@@ -6,33 +6,15 @@ import { UserContext } from "./UserContext.jsx";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
-
-export default function BookingWidget({ place }) {
+export default function BookingWidget({ place, disabledDates }) {
   const [checkIn, setCheckIn] = useState(new Date());
   const [checkOut, setCheckOut] = useState(new Date());
   const [numberOfGuests, setNumberOfGuests] = useState(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
   const [redirect, setRedirect] = useState("");
   const { user } = useContext(UserContext);
 
-  const events = [
-    {
-        "start": "2023-10-07T15:30:00+05:00",
-        "end": "2023-10-07T16:30:00+05:00"
-    },
-    {
-        "start": "2023-10-11T16:00:00+05:00",
-        "end": "2023-10-20T20:00:00+05:00"
-    }
-  ];
-  
-  const disabledDateRanges = events.map(range => ({
-    start: new Date(range.start),
-    end: new Date(range.end)
-  }));
 
   useEffect(() => {
     if (user) {
@@ -76,17 +58,17 @@ export default function BookingWidget({ place }) {
           <div className="py-3 px-4">
             <label>Check in:</label>
             <DatePicker
-              selected={checkIn}
-              onChange={(date) => setCheckIn(date)}
-              excludeDateIntervals={disabledDateRanges}
-            />
+                selected={checkIn}
+                onChange={(date) => setCheckIn(date)}
+                excludeDateIntervals={disabledDates}
+              />
           </div>
           <div className="py-3 px-4 border-l">
             <label>Check out:</label>
             <DatePicker
               selected={checkOut}
               onChange={(date) => setCheckOut(date)}
-              excludeDateIntervals={disabledDateRanges}
+              excludeDateIntervals={disabledDates}
             />
           </div>
         </div>
