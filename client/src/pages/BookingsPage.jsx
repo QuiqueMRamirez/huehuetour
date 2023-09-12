@@ -11,7 +11,6 @@ export default function BookingsPage() {
 
     useEffect(() => {
         axios.get('/bookings').then((response) => {
-            console.log(response)
             setBookings(response.data)
         })
     }, [])

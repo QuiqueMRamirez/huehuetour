@@ -18,6 +18,7 @@ export default function BookingWidget({ place, disabledDates }) {
 
   useEffect(() => {
     if (user) {
+      console.log(place)
       setName(user.name);
     }
   }, [user]);
@@ -76,6 +77,7 @@ export default function BookingWidget({ place, disabledDates }) {
           <label>Número de huéspedes:</label>
           <input
             type="number"
+            max={place.maxGuests}
             value={numberOfGuests}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
           />
