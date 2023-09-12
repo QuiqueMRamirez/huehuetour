@@ -184,7 +184,10 @@ app.get('/places', async(req, res) => {
 
 app.post('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
-  const {checkIn, checkOut, place, numberOfGuests, name, phone, price} = req.body
+  let {checkIn, checkOut, place, numberOfGuests, name, phone, price} = req.body
+  checkIn = new Date(checkIn).getDate() - 1
+  checkOut = new Date(checkOut).getDate() - 1
+  console.log(checkIn, checkOut)
   try{
     const bookingDocument = await Booking.create({
       checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id, price
