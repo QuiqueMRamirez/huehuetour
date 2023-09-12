@@ -166,6 +166,7 @@ const PlacesFormPage = () => {
           <h3 className="mt-2 -mb-1">Capacidad de huéspedes</h3>
           <input
             type="number"
+            min={1}
             value={maxGuests}
             onChange={(e) => setMaxGuests(e.target.value)}
             placeholder="huespedes maximo"
@@ -175,6 +176,7 @@ const PlacesFormPage = () => {
           <h3 className="mt-2 -mb-1">Precio por noche</h3>
           <input
             type="number"
+            min={1}
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="huespedes maximo"
