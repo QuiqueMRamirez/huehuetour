@@ -78,6 +78,7 @@ export default function BookingWidget({ place, disabledDates }) {
           <input
             type="number"
             max={place.maxGuests}
+            min={1}
             value={numberOfGuests}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
           />
@@ -88,6 +89,7 @@ export default function BookingWidget({ place, disabledDates }) {
             <input
               type="text"
               value={name}
+              disabled
               onChange={(ev) => setName(ev.target.value)}
             />
             <label>Número telefónico:</label>
