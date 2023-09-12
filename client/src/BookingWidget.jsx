@@ -9,8 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 export default function BookingWidget({ place }) {
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
+  const [checkIn, setCheckIn] = useState(new Date());
+  const [checkOut, setCheckOut] = useState(new Date());
   const [numberOfGuests, setNumberOfGuests] = useState(1);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -39,10 +39,6 @@ export default function BookingWidget({ place }) {
       setName(user.name);
     }
   }, [user]);
-
-  useEffect(() => {
-    console.log(disabledDateRanges)
-  },[])
 
   let numberOfNights = 0;
   if (checkIn && checkOut) {
@@ -80,24 +76,17 @@ export default function BookingWidget({ place }) {
           <div className="py-3 px-4">
             <label>Check in:</label>
             <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
+              selected={checkIn}
+              onChange={(date) => setCheckIn(date)}
               excludeDateIntervals={disabledDateRanges}
-            />
-            <input
-              type="date"
-              value={checkIn}
-              min={new Date().toISOString().split("T")[0]}
-              onChange={(ev) => setCheckIn(ev.target.value)}
             />
           </div>
           <div className="py-3 px-4 border-l">
             <label>Check out:</label>
-            <input
-              type="date"
-              value={checkOut}
-              onChange={(ev) => setCheckOut(ev.target.value)}
-              min={new Date().toISOString().split("T")[0]}
+            <DatePicker
+              selected={checkOut}
+              onChange={(date) => setCheckOut(date)}
+              excludeDateIntervals={disabledDateRanges}
             />
           </div>
         </div>
