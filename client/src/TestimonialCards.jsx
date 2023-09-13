@@ -13,7 +13,7 @@ export default function TestimonialCards(props) {
           height={80}
           width={80}
           src={
-            props.imgSrc ? "" : "https://randomuser.me/api/portraits/men/46.jpg"
+            !user.photo ? "https://picsum.photos/id/28/4928/3264" : `http://localhost:8000/uploads/${user.photo}`
           }
         />
       </div>

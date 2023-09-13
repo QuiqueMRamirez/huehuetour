@@ -23,7 +23,7 @@ app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
-    origin: "http://127.0.0.1:5173",
+    origin: "http://localhost:5173",
   })
 );
 
@@ -44,11 +44,12 @@ function getUserDataFromReq(req) {
 }
 
 app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, photo, password } = req.body;
   try {
     const userDoc = await User.create({
       name,
       email,
+      photo,
       password: bcrypt.hashSync(password, bcryptSalt),
     });
     res.json(userDoc);
@@ -64,7 +65,7 @@ app.post('/login', async (req, res) => {
     if (userDoc) {
       const passOk = bcrypt.compareSync(password, userDoc.password)
       if (passOk) {
-        jwt.sign({email: userDoc.email, id: userDoc._id, name: userDoc.name}, jwtSecret, {}, (err, token)=> {
+        jwt.sign({email: userDoc.email, id: userDoc._id, name: userDoc.name, photo: userDoc.photo}, jwtSecret, {}, (err, token)=> {
           if(err) throw err;
           res.cookie('token',token).json(userDoc)
         })
@@ -192,10 +193,6 @@ app.get('/places', async(req, res) => {
 app.post('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
   let {checkIn, checkOut, place, numberOfGuests, name, phone, price} = req.body
-  // const auxCheckIn = new Date(checkIn)
-  // const auxCheckOut = new Date(checkOut)
-  // checkIn = new Date(auxCheckIn.getFullYear(),auxCheckIn.getMonth(),auxCheckIn.getDate() - 1)
-  // checkOut = new Date(auxCheckOut.getFullYear(),auxCheckOut.getMonth(),auxCheckOut.getDate() - 1)
   try{
     const bookingDocument = await Booking.create({
       checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id, price
@@ -214,6 +211,7 @@ app.get('/bookings', async(req, res) => {
 })
 
 app.post('/review/:id', async(req, res) => {
+  console.log(1,req)
   const userData = await getUserDataFromReq(req)
   const {id} = req.params
   const {title, content} = req.body

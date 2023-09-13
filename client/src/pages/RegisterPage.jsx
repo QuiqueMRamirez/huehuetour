@@ -6,28 +6,42 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
-  const [redirect, setRedirect] = useState(false)
+  const [redirect, setRedirect] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState('');
 
   async function registerUser(e) {
     e.preventDefault();
     try {
-      await axios.post('/register', {
-          name,
-          email,
-          password
+      await axios.post("/register", {
+        name,
+        email,
+        photo: profilePhoto,
+        password,
       });
       setName("");
       setPassword("");
       setEmail("");
-      setIsError(false)
-      setRedirect(true)
+      setProfilePhoto('')
+      setIsError(false);
+      setRedirect(true);
     } catch (err) {
-      setIsError(true)
+      setIsError(true);
     }
   }
 
-  if(redirect){
-    return <Navigate to={'/login'}/>
+  function uploadPhoto(event) {
+    const data = new FormData();
+    data.append('photos',event.target.files[0]);
+    axios
+      .post("/upload", data, {
+        hedaers: { "Content-type": "multipart/form-data" },
+      })
+      .then((response) => setProfilePhoto(response.data[0]))
+      .catch((error) => console.log(error));
+  }
+
+  if (redirect) {
+    return <Navigate to={"/login"} />;
   }
 
   return (
@@ -53,6 +67,29 @@ export default function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <label className="h-18 mb-1 cursor-pointer flex items-center gap-1 justify-center border bg-transparent rounded-2xl p-2 text-2xl text-gray-600">
+            <input
+              type="file"
+              multiple
+              className="hidden"
+              onChange={uploadPhoto}
+            />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-8 h-8"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15"
+              />
+            </svg>
+            Foto de perfil
+          </label>
           <button className="primary">Register</button>
           <div className="text-center py-2 text-gray-500">
             Ya tienes cuenta?
@@ -80,11 +117,16 @@ export default function RegisterPage() {
               <span className="sr-only">Danger</span>
               <div>
                 <span className="font-medium">
-                  Ocurrió un error al intentar registrar tu usuario. Por favor asegúrate de que <br/> los datos cumplen con las siguientes restricciones:
+                  Ocurrió un error al intentar registrar tu usuario. Por favor
+                  asegúrate de que <br /> los datos cumplen con las siguientes
+                  restricciones:
                 </span>
                 <ul className="mt-1.5 ml-4 list-disc list-inside">
                   <li>Tu contraseña debe tener al menos 8 caracteres.</li>
-                  <li>Tu email debe ser único, no puedes crear dos o más cuentas con el mismo email.</li>
+                  <li>
+                    Tu email debe ser único, no puedes crear dos o más cuentas
+                    con el mismo email.
+                  </li>
                 </ul>
               </div>
             </div>
