@@ -20,7 +20,8 @@ export default function ReviewDialog() {
         const reviewData = { title: review.title, content: review.content }
         const response = await axios.post(`/review/${id}`, reviewData)
         if (response.status === 200) {
-            <Navigate to={'/account/place/' + id} />
+            window.location.reload()
+            // <Navigate to={'/account/place/' + id} />
         } else {
             //marcar error
         }

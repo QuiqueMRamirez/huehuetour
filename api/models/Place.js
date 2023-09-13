@@ -6,6 +6,7 @@ const placeSchema = new mongoose.Schema({
     address: String,
     photos: [String],
     description: String,
+    placeType: String,
     perks: [String],
     extraInfo: String,
     checkIn: Number,

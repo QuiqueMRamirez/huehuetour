@@ -4,6 +4,7 @@ import PhotosUploader from "../PhotosUploader";
 import axios from "axios";
 import AccountNavigation from "../AccountNavigation";
 import { Navigate, useParams } from "react-router-dom";
+import RadioPlaceType from "../RadioPlaceType";
 
 const PlacesFormPage = () => {
   const { id } = useParams();
@@ -16,8 +17,9 @@ const PlacesFormPage = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
+  const [placeType, setPlaceType] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const [price, setPrice] = useState(100);
+  const [price, setPrice] = useState(0);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -25,17 +27,18 @@ const PlacesFormPage = () => {
       return;
     }
     axios.get(`/places/${id}`).then((response) => {
-      const { data } = response;
-      setTitle(data.title);
-      setAddress(data.address);
-      setAddedPhotos(data.photos);
-      setDescription(data.description);
-      setPerks(data.perks);
-      setExtraInfo(data.extraInfo);
-      setCheckIn(data.checkIn);
-      setCheckOut(data.checkOut);
-      setMaxGuests(data.maxGuests);
-      setPrice(data.price);
+      const { placeById } = response.data;
+      setTitle(placeById.title);
+      setAddress(placeById.address);
+      setAddedPhotos(placeById.photos);
+      setDescription(placeById.description);
+      setPlaceType(placeById.placeType);
+      setPerks(placeById.perks);
+      setExtraInfo(placeById.extraInfo);
+      setCheckIn(placeById.checkIn);
+      setCheckOut(placeById.checkOut);
+      setMaxGuests(placeById.maxGuests);
+      setPrice(placeById.price);
     });
   }, [id]);
 
@@ -55,6 +58,7 @@ const PlacesFormPage = () => {
         address,
         addedPhotos,
         description,
+        placeType,
         perks,
         extraInfo,
         checkIn,
@@ -95,14 +99,14 @@ const PlacesFormPage = () => {
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="titulo, por ejemplo: mi apartamento"
+        placeholder="titulo, por ejemplo: Mi casa"
       ></input>
       {preInput("Dirección", "Dirección del lugar")}
       <input
         type="text"
         value={address}
         onChange={(e) => setAddress(e.target.value)}
-        placeholder="dirección"
+        placeholder="Dirección exacta del establecimiento/atracción"
       ></input>
       {preInput("Fotos", "Entre más fotos mucho mejor")}
       <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
@@ -133,56 +137,75 @@ const PlacesFormPage = () => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      {preInput("Beneficios", "Seleccione todos los beneficios del lugar")}
-      <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-        <Perks selected={perks} onChange={setPerks} />
-      </div>
+      {!id ? (
+        <>
+          {preInput(
+            "Tipo de establecimiento",
+            "Qué tipo de establecimiento quieres registrar?"
+          )}
+          <div className="mt-2">
+            <RadioPlaceType onChange={setPlaceType} />
+          </div>
+        </>
+      ) : null}
+      {placeType === "H" ? (
+        <>
+          {preInput("Beneficios", "Seleccione todos los beneficios del lugar")}
+          <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            <Perks selected={perks} onChange={setPerks} />
+          </div>
+        </>
+      ) : null}
       {preInput("Información extra", "Indique información extra del lugar")}
       <textarea
         value={extraInfo}
         onChange={(e) => setExtraInfo(e.target.value)}
       />
-      {preInput("Check in, check out y capacidad máxima de huéspedes")}
-      <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
-        <div>
-          <h3 className="mt-2 -mb-1">Check in</h3>
-          <input
-            type="text"
-            value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
-            placeholder="hora de llegada"
-          />
-        </div>
-        <div>
-          <h3 className="mt-2 -mb-1">Check out</h3>
-          <input
-            type="text"
-            value={checkOut}
-            onChange={(e) => setCheckOut(e.target.value)}
-            placeholder="hora de salida"
-          />
-        </div>
-        <div>
-          <h3 className="mt-2 -mb-1">Capacidad de huéspedes</h3>
-          <input
-            type="number"
-            min={1}
-            value={maxGuests}
-            onChange={(e) => setMaxGuests(e.target.value)}
-            placeholder="huespedes maximo"
-          />
-        </div>
-        <div>
-          <h3 className="mt-2 -mb-1">Precio por noche</h3>
-          <input
-            type="number"
-            min={1}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="huespedes maximo"
-          />
-        </div>
-      </div>
+      {placeType === "H" ? (
+        <>
+          {preInput("Check in, check out y capacidad máxima de huéspedes")}
+          <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
+            <div>
+              <h3 className="mt-2 -mb-1">Check in</h3>
+              <input
+                type="text"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                placeholder="hora de llegada"
+              />
+            </div>
+            <div>
+              <h3 className="mt-2 -mb-1">Check out</h3>
+              <input
+                type="text"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+                placeholder="hora de salida"
+              />
+            </div>
+            <div>
+              <h3 className="mt-2 -mb-1">Capacidad de huéspedes</h3>
+              <input
+                type="number"
+                min={1}
+                value={maxGuests}
+                onChange={(e) => setMaxGuests(e.target.value)}
+                placeholder="huespedes maximo"
+              />
+            </div>
+            <div>
+              <h3 className="mt-2 -mb-1">Precio por noche</h3>
+              <input
+                type="number"
+                min={1}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="huespedes maximo"
+              />
+            </div>
+          </div>
+        </>
+      ) : null}
       <div>
         <button className="primary my-4" onClick={savePlace}>
           Guardar

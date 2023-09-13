@@ -18,7 +18,6 @@ export default function BookingWidget({ place, disabledDates }) {
 
   useEffect(() => {
     if (user) {
-      console.log(place)
       setName(user.name);
     }
   }, [user]);
