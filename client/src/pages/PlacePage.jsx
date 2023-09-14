@@ -13,7 +13,7 @@ export default function PlacePage() {
   const [place, setPlace] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [disabledDates, setDisabledDates] = useState([]);
-  const [dataIsReady, setDataIsReady] = useState(false);
+  const [isShowPhotos, setIsShowPhotos] = useState(false)
 
   useEffect(() => {
     if (!id) {
@@ -38,7 +38,6 @@ export default function PlacePage() {
         setDisabledDates(formatedRangeDates);
         setPlace(response.data.placeById);
         setReviews(response.data.reviews);
-        setDataIsReady(true);
       })
       .catch((error) => {
         console.log(error);
@@ -48,11 +47,15 @@ export default function PlacePage() {
 
   if (!place) return "";
 
+  function isShowPhotosButtonClicked(value){
+    setIsShowPhotos(value)
+  }
+
   return (
     <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
       <h1 className="text-3xl">{place.title}</h1>
       <AddressLink reviews={place.disabledDates}>{place.address}</AddressLink>
-      <PlaceGallery place={place} />
+      <PlaceGallery place={place} isShowPhotos={isShowPhotosButtonClicked}/>
       <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
         <div>
           <div className="my-4">
@@ -185,7 +188,7 @@ export default function PlacePage() {
             Qué dicen las personas acerca de este hospedaje
           </h2>
         </div>
-        <div className="w-full content-center">
+        {!isShowPhotos ? (<div className="w-full content-center">
           {reviews && reviews.length > 0 ? (
             <Slider options={{ align: "center" }}>
               {reviews &&
@@ -202,7 +205,7 @@ export default function PlacePage() {
               hospedaje?
             </div>
           )}
-        </div>
+        </div>):null}
         <div>
           <ReviewDialog />
         </div>

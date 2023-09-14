@@ -48,6 +48,11 @@ export default function BookingWidget({ place, disabledDates }) {
     return <Navigate to={redirect} />;
   }
 
+  function onKeyDownChange(e){
+    e.preventDefault()
+    return false
+  }
+
   return (
     <div className="bg-white shadow p-4 rounded-2xl">
       <div className="text-2xl text-center">
@@ -79,6 +84,7 @@ export default function BookingWidget({ place, disabledDates }) {
             max={place.maxGuests}
             min={1}
             value={numberOfGuests}
+            onKeyDown={onKeyDownChange}
             onChange={(ev) => setNumberOfGuests(ev.target.value)}
           />
         </div>
