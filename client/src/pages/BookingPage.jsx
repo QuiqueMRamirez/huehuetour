@@ -7,10 +7,12 @@ import BookingDates from "../BookingDate";
 
 export default function BookingPage() {
     const {id} = useParams();
+    console.log(id)
     const [booking,setBooking] = useState(null);
     useEffect(() => {
       if (id) {
         axios.get('/bookings').then(response => {
+          console.log(response)
           const foundBooking = response.data.find(({_id}) => _id === id);
           if (foundBooking) {
             setBooking(foundBooking);
@@ -22,6 +24,8 @@ export default function BookingPage() {
     if (!booking) {
       return '';
     }
+
+    console.log(1)
   
     return (
       <div className="my-8">

@@ -189,10 +189,10 @@ app.get('/places', async(req, res) => {
 
 app.post('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
-  let {checkIn, checkOut, place, numberOfGuests, name, phone, price} = req.body
+  let {checkIn, checkOut, place, numberOfGuests, name, phone, price, owner} = req.body
   try{
     const bookingDocument = await Booking.create({
-      checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id, price
+      checkIn, checkOut, place, numberOfGuests, name, phone, user:userData.id, price, ownerUser: owner
     })
     res.json(bookingDocument)
   }catch(error){
@@ -205,6 +205,12 @@ app.post('/bookings', async(req, res) => {
 app.get('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
   res.json(await Booking.find({user:userData.id}).populate('place'))
+})
+
+app.get('/bookingsByOwnUser', async(req, res) => {
+  const userData = await getUserDataFromReq(req)
+  const bookingData = await Booking.find({ownerUser:userData.id}).populate('place')
+  res.status(200).json(bookingData)
 })
 
 app.post('/review/:id', async(req, res) => {
