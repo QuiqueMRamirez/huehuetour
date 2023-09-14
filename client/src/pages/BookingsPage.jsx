@@ -18,6 +18,19 @@ export default function BookingsPage() {
   }, []);
 
 
+  if(bookings.length <= 0){
+    return (
+      <>
+        <AccountNavigation/>
+        <div className="mt-8 mb-8 text-2xl text-center text-gray-500">
+            Haz click <Link to={"/"} className="underline text-black">
+              {" "}
+              aquí
+            </Link> y comienza a buscar un hospedaje para tu siguiente viaje a Huehuetenango.
+          </div>
+      </>
+    )
+  }
   return (
     <div>
       <AccountNavigation />

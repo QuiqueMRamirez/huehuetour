@@ -141,7 +141,7 @@ const PlacesFormPage = () => {
         <>
           {preInput(
             "Tipo de establecimiento",
-            "Qué tipo de establecimiento quieres registrar?"
+            "¿Qué tipo de establecimiento quieres registrar?"
           )}
           <div className="mt-2">
             <RadioPlaceType onChange={setPlaceType} />
