@@ -67,7 +67,7 @@ export default function ProfilePage() {
               className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden mt-4"
               key={booking._id}
             >
-              <div className="w-48">
+              <div className="w-80">
                 <PlaceImg place={booking.place} />
               </div>
               <div className="py-3 pr-3 grow">
