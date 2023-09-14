@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
@@ -26,9 +26,9 @@ export default function Header() {
         <span className="font-bold text-xl">huehuetour</span>
       </Link>
       <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
-        <button className="bg-transparent">Hospedajes</button>
+        <Link className="bg-transparent" to={'/Hospedajes'}>Hospedajes</Link>
         <div className="border-l border-gray-300"></div>
-        <button className="bg-transparent">Atracciones</button>
+        <Link className="bg-transparent" to={'/Atracciones'}>Atracciones</Link>
       </div>
       <Link
         to={user ? "/account" : "/login"}

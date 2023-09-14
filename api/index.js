@@ -187,6 +187,11 @@ app.get('/places', async(req, res) => {
   res.json(await Place.find())
 })
 
+app.get('/placesByFilter/:id', async(req, res) => {
+  const {id} = req.params
+  res.json(await Place.find({placeType: id === 'Hospedajes' ? 'H' : 'A'}))
+})
+
 app.post('/bookings', async(req, res) => {
   const userData = await getUserDataFromReq(req)
   let {checkIn, checkOut, place, numberOfGuests, name, phone, price, owner} = req.body
@@ -214,7 +219,6 @@ app.get('/bookingsByOwnUser', async(req, res) => {
 })
 
 app.post('/review/:id', async(req, res) => {
-  console.log(1,req)
   const userData = await getUserDataFromReq(req)
   const {id} = req.params
   const {title, content} = req.body

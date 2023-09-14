@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-export default function IndexPage() {
+export default function PlacesByType() {
   const [places, setPlaces] = useState([]);
+  const { id } = useParams()
   useEffect(() => {
-    axios.get("/places").then((response) => {
+    axios.get(`/placesByFilter/${id}`).then((response) => {
       setPlaces(response.data);
     });
-  }, []);
+  }, [id]);
 
   return (
     <div className="mt-8 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
