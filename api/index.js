@@ -233,6 +233,18 @@ app.post('/review/:id', async(req, res) => {
     res.status(500).json(error)
   }
 })
+
+app.delete('/bookings/:id', async(req, res) => {
+  const userData = await getUserDataFromReq(req)
+  const {id} = req.params
+  try{
+    await Booking.deleteOne({_id: id, user: userData.id})
+    res.status(200).json('Booking deleted')
+  }catch(error){
+    console.log(error)
+    res.status(500).json(error)
+  }
+})
 //GgRUf9Mm87RZ88KN
 
 app.listen(8000);
