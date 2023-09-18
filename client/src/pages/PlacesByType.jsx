@@ -6,7 +6,6 @@ export default function PlacesByType() {
   const [places, setPlaces] = useState([]);
   const { id } = useParams();
   useEffect(() => {
-    console.log(id);
     axios.get(`/placesByFilter/${id}`).then((response) => {
       setPlaces(response.data);
     });
