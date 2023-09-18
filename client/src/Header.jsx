@@ -29,6 +29,8 @@ export default function Header() {
         <Link className="bg-transparent" to={'/Hospedajes'}>Hospedajes</Link>
         <div className="border-l border-gray-300"></div>
         <Link className="bg-transparent" to={'/Atracciones'}>Atracciones</Link>
+        <div className="border-l border-gray-300"></div>
+        <Link className="bg-transparent" to={'/Servicios'}>Servicios</Link>
       </div>
       <Link
         to={user ? "/account" : "/login"}
