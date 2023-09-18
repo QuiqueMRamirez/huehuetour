@@ -28,7 +28,7 @@ export default function PlacesByType() {
             <h2 className="font-bold">{place.address}</h2>
             <h3 className="text-sm text-gray-500">{place.title}</h3>
             <div className="mt-1">
-              {place.placeType === "H" ? (
+              {place.placeType === "H" || place.placeType === "C" ? (
                 <>
                   <span className="font-bold">Q{place.price}</span> por noche
                 </>

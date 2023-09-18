@@ -188,7 +188,7 @@ app.get('/places', async (req, res) => {
 
 app.get('/placesByFilter/:id', async (req, res) => {
   const { id } = req.params
-  res.json(await Place.find({ placeType: id === 'Hospedajes' ? 'H' : id === 'Atracciones' ? 'A' : 'S' }))
+  res.json(await Place.find({ placeType: id === 'Hospedajes' ? 'H' : id === 'Atracciones' ? 'A' : id === 'Servicios' ? 'S' : 'C' }))
 })
 
 app.post('/bookings', async (req, res) => {

@@ -148,7 +148,7 @@ const PlacesFormPage = () => {
           </div>
         </>
       ) : null}
-      {placeType === "H" ? (
+      {placeType === "H" || placeType === "C" ? (
         <>
           {preInput("Beneficios", "Seleccione todos los beneficios del lugar")}
           <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
@@ -161,7 +161,7 @@ const PlacesFormPage = () => {
         value={extraInfo}
         onChange={(e) => setExtraInfo(e.target.value)}
       />
-      {placeType === "H" ? (
+      {placeType === "H" || placeType === "C" ? (
         <>
           {preInput("Check in, check out y capacidad máxima de huéspedes")}
           <div className="grid gap-2 grid-cols-2 md:grid-cols-4">

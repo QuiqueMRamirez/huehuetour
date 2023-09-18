@@ -26,7 +26,9 @@ export default function Header() {
         <span className="font-bold text-xl">huehuetour</span>
       </Link>
       <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
-        <Link className="bg-transparent" to={'/Hospedajes'}>Hospedajes</Link>
+        <Link className="bg-transparent" to={'/Hospedajes'}>Hoteles</Link>
+        <div className="border-l border-gray-300"></div>
+        <Link className="bg-transparent" to={'/Casas'}>Casas</Link>
         <div className="border-l border-gray-300"></div>
         <Link className="bg-transparent" to={'/Atracciones'}>Atracciones</Link>
         <div className="border-l border-gray-300"></div>
