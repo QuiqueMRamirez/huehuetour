@@ -174,7 +174,7 @@ export default function PlacePage() {
             </div>
           </div>
         </div>
-        {place.placeType === "H" || place.placeType === 'C' ? (
+        {(place.placeType === "H" || place.placeType === 'C') && !isShowPhotos ? (
           <>
             <div>
               <BookingWidget place={place} disabledDates={disabledDates} />

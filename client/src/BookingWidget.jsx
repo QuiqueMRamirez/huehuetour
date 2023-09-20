@@ -65,6 +65,7 @@ export default function BookingWidget({ place, disabledDates }) {
             <label>Check in:</label>
             <DatePicker
                 selected={checkIn}
+                minDate={new Date()}
                 onChange={(date) => setCheckIn(date)}
                 excludeDateIntervals={place.placeType === 'H' ? [] : disabledDates}
               />
@@ -73,6 +74,7 @@ export default function BookingWidget({ place, disabledDates }) {
             <label>Check out:</label>
             <DatePicker
               selected={checkOut}
+              minDate={new Date()}
               onChange={(date) => setCheckOut(date)}
               excludeDateIntervals={place.placeType === 'H' ? [] : disabledDates}
             />
