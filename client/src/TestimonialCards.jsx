@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext.jsx";
 
 export default function TestimonialCards(props) {
   const { user } = useContext(UserContext);
-
+console.log(props)
   return (
     <div className="py-4 px-8 bg-white shadow-lg rounded-lg my-20 bg-slate-100">
       <div className="flex justify-center md:justify-end -mt-16">
@@ -13,7 +13,7 @@ export default function TestimonialCards(props) {
           height={80}
           width={80}
           src={
-            !user?.photo ? "https://picsum.photos/id/28/4928/3264" : `http://localhost:8000/uploads/${user.photo}`
+            !props.user?.photo ? "https://picsum.photos/id/28/4928/3264" : props.user.photo
           }
         />
       </div>

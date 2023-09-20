@@ -48,7 +48,8 @@ async function uploadToS3(path, originalFilename, mimetype) {
     ContentType: mimetype,
     ACL: 'public-read',
   }));
-  return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
+  
+  return `https://${bucketName}.s3.amazonaws.com/${newFilename}`;
 }
 
 function getUserDataFromReq(req) {

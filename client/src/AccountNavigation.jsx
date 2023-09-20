@@ -1,5 +1,5 @@
 import { Link, useLocation, Navigate } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "./UserContext";
 import axios from "axios";
 
@@ -26,6 +26,8 @@ export default function AccountNavigation() {
     setRedirect("/");
     setUser(null);
   }
+
+  console.log(1,user)
 
   if (redirect) {
     return <Navigate to={redirect} />;
