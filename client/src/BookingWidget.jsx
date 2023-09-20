@@ -66,7 +66,7 @@ export default function BookingWidget({ place, disabledDates }) {
             <DatePicker
                 selected={checkIn}
                 onChange={(date) => setCheckIn(date)}
-                excludeDateIntervals={disabledDates}
+                excludeDateIntervals={place.placeType === 'H' ? [] : disabledDates}
               />
           </div>
           <div className="py-3 px-4 border-l">
@@ -74,7 +74,7 @@ export default function BookingWidget({ place, disabledDates }) {
             <DatePicker
               selected={checkOut}
               onChange={(date) => setCheckOut(date)}
-              excludeDateIntervals={disabledDates}
+              excludeDateIntervals={place.placeType === 'H' ? [] : disabledDates}
             />
           </div>
         </div>
