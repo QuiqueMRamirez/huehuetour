@@ -26,7 +26,7 @@ export default function PlacesByType() {
                   <div className="bg-gray-500 rounded-2xl flex">
                     <img
                       className="rounded-2xl object-cover aspect-square"
-                      src={"http://localhost:8000/uploads/" + place.photos?.[0]}
+                      src={place.photos?.[0]}
                       alt=""
                     />
                   </div>

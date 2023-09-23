@@ -27,7 +27,6 @@ export default function AccountNavigation() {
     setUser(null);
   }
 
-  console.log(1,user)
 
   if (redirect) {
     return <Navigate to={redirect} />;
