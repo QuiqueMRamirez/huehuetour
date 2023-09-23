@@ -16,7 +16,7 @@ import BookingPage from "./pages/BookingPage";
 import BookingsPage from "./pages/BookingsPage";
 import PlacesByType from "./pages/PlacesByType";
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
+axios.defaults.baseURL = import.meta.env.VITE_APP_API_ENDPOINT
 axios.defaults.withCredentials = true
 
 function App() {
