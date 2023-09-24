@@ -94,7 +94,7 @@ const PlacesFormPage = () => {
   return (
     <div>
       <AccountNavigation />
-      {preInput("Título", "Ingrese un título para su hogar")}
+      {preInput("Título", "Ingrese un título para su lugar")}
       <input
         type="text"
         value={title}
@@ -108,7 +108,7 @@ const PlacesFormPage = () => {
         onChange={(e) => setAddress(e.target.value)}
         placeholder="Dirección exacta del establecimiento/atracción"
       ></input>
-      {preInput("Fotos", "Entre más fotos mucho mejor")}
+      {preInput("Fotos", "Entre más fotos mejor")}
       <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
       {error ? (
         <div

@@ -55,6 +55,17 @@ export default function PlacePage() {
     <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
       <h1 className="text-3xl">{place.title}</h1>
       <AddressLink reviews={place.disabledDates}>{place.address}</AddressLink>
+      <div className="flex justify-center md:justify-end -mt-16 mb-6">
+        <img
+          alt={place.author ? "" : ""}
+          className="w-20 h-20 object-cover rounded-full border-2 border-indigo-500"
+          height={80}
+          width={80}
+          src={
+            !place.owner?.photo ? "https://picsum.photos/id/28/4928/3264" : place.owner.photo
+          }
+        />
+      </div>
       <PlaceGallery place={place} isShowPhotos={isShowPhotosButtonClicked}/>
       <div className="mt-8 mb-8 grid gap-8 grid-cols-1 md:grid-cols-[2fr_1fr]">
         <div>
@@ -62,7 +73,7 @@ export default function PlacePage() {
             <h2 className="font-semibold text-2xl">Descripción</h2>
             {place.description}
           </div>
-          {place.placeType === "H" ? (
+          {place.placeType === "H" || place.placeType === 'C' ? (
             <>
               Check-in: {place.checkIn} hrs.
               <br />
@@ -72,7 +83,7 @@ export default function PlacePage() {
             </>
           ) : null}
           <div className="mt-4">
-            {place.placeType === "H" ? (
+            {place.placeType === "H" || place.placeType === 'C' ? (
               <>
                 <h2 className="font-semibold text-2xl">Qué ofrecemos</h2>
                 <div className="flex grid-rows-1 gap-1">

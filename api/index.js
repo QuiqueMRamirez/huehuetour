@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL_2);
 const bucketName = "touringimages"
 
 async function uploadToS3(path, originalFilename, mimetype) {
@@ -123,7 +123,6 @@ app.post('/api/upload-by-link', async(req, res) => {
     url: link,
     dest: '/tmp/' +newName,
   });
-  console.log(2)
   const url = await uploadToS3('/tmp/' +newName, newName, mime.lookup('/tmp/' +newName));
   res.json(url);
 })
@@ -166,7 +165,7 @@ app.get('/api/user-places', (req, res) => {
 
 app.get('/api/places/:id', async(req, res) => {
   const {id} = req.params
-  const placeById = await Place.findById(id)
+  const placeById = await Place.findById(id).populate('owner')
   if (placeById) {
     let bookingsDate = []
     let reviewsByPlace = await Review.find({ place: id }).populate('user')

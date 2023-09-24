@@ -12,23 +12,27 @@ export default function RegisterPage() {
   async function registerUser(e) {
     e.preventDefault();
     try {
-      await axios.post("/register", {
-        name,
-        email,
-        photo: profilePhoto,
-        password,
-      });
-      setName("");
-      setPassword("");
-      setEmail("");
-      setProfilePhoto('')
-      setIsError(false);
-      setRedirect(true);
+      if(profilePhoto !== ''){
+        await axios.post("/register", {
+          name,
+          email,
+          photo: profilePhoto,
+          password,
+        });
+        setName("");
+        setPassword("");
+        setEmail("");
+        setProfilePhoto('')
+        setIsError(false);
+        setRedirect(true);
+      } else {
+        setIsError(true)
+      }
     } catch (err) {
       setIsError(true);
     }
   }
-
+//35.91.241.69
   function uploadPhoto(event) {
     const data = new FormData();
     data.append('photos',event.target.files[0]);
@@ -126,6 +130,9 @@ export default function RegisterPage() {
                   <li>
                     Tu email debe ser único, no puedes crear dos o más cuentas
                     con el mismo email.
+                  </li>
+                  <li>
+                    La foto de perfil es obligatoria.
                   </li>
                 </ul>
               </div>
