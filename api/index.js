@@ -27,7 +27,7 @@ app.use(
   })
 );
 
-mongoose.connect(process.env.MONGO_URL_2);
+mongoose.connect(process.env.MONGO_URL);
 const bucketName = "touringimages"
 
 async function uploadToS3(path, originalFilename, mimetype) {
