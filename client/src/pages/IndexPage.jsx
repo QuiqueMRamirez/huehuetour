@@ -18,7 +18,7 @@ export default function IndexPage() {
             {place.photos?.[0] && (
               <div className="bg-gray-500 rounded-2xl flex">
                 <img
-                  className="rounded-2xl object-cover aspect-square"
+                  className="rounded-2xl object-cover aspect-square min-w-full min-h-full"
                   src={place.photos?.[0]}
                   alt=""
                 />
