@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [isError, setIsError] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState('');
+  const [uploadPhotoClick, setUploadPhotoClick] = useState(false)
 
   async function registerUser(e) {
     e.preventDefault();
@@ -32,16 +33,22 @@ export default function RegisterPage() {
       setIsError(true);
     }
   }
-//35.91.241.69
   function uploadPhoto(event) {
+    setUploadPhotoClick(true)
     const data = new FormData();
     data.append('photos',event.target.files[0]);
     axios
       .post("/upload", data, {
         hedaers: { "Content-type": "multipart/form-data" },
       })
-      .then((response) => setProfilePhoto(response.data[0]))
-      .catch((error) => console.log(error));
+      .then((response) => {
+        setProfilePhoto(response.data[0]) 
+        setUploadPhotoClick(false)
+      })
+      .catch((error) => {
+        setIsError(true)
+        setUploadPhotoClick(false)
+      });
   }
 
   if (redirect) {
@@ -94,7 +101,8 @@ export default function RegisterPage() {
             </svg>
             Foto de perfil
           </label>
-          <button className="primary">Register</button>
+          {uploadPhotoClick ? (<div className="text-center">Cargando foto...</div>) : (<button className="primary" disabled={uploadPhotoClick}>Registrarme</button>)}
+          
           <div className="text-center py-2 text-gray-500">
             Ya tienes cuenta?
             <Link to={"/login"} className="underline text-black">

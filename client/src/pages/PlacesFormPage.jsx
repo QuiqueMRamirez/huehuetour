@@ -52,7 +52,7 @@ const PlacesFormPage = () => {
   }
 
   async function savePlace(ev) {
-    if (addedPhotos && addedPhotos.length >= 3) {
+    if (addedPhotos && addedPhotos.length >= 3 && title !== '' && address != '' && description !== '' && placeType !== '') {
       const placeData = {
         title,
         address,
@@ -127,7 +127,7 @@ const PlacesFormPage = () => {
           <span className="sr-only">Danger</span>
           <div>
             <span className="font-medium">
-              Debes cargar al menos 3 fotos para poder registrar tu lugar.
+              Debes cargar al menos 3 fotos para poder registrar tu lugar y llenar los campos título, descripción, dirección y tipo de establecimiento.
             </span>
           </div>
         </div>
@@ -207,7 +207,7 @@ const PlacesFormPage = () => {
         </>
       ) : null}
       <div>
-        <button className="primary my-4" onClick={savePlace}>
+        <button className="primary my-4" onClick={savePlace} disabled={error}>
           Guardar
         </button>
       </div>
