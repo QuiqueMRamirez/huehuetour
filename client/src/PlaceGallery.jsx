@@ -38,8 +38,8 @@ export default function PlaceGallery({place, isShowPhotos}) {
       <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
         <div>
           {place.photos?.[0] && (
-            <div>
-              <Image onClick={() => onClickPhoto(true)} className="cursor-pointer object-cover min-h-screen min-w-full" src={place.photos[0]} alt=""/>
+            <div className="h-full max-h-screen">
+              <Image onClick={() => onClickPhoto(true)} className="cursor-pointer object-cover h-full min-w-full" src={place.photos[0]} alt=""/>
             </div>
           )}
         </div>
